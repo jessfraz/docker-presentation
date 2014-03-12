@@ -1,13 +1,18 @@
 # Docker Presentation
 
-This is a repository holding instructions on building a server like the one used in my presentaion at [Brooklyn js](http://brooklynjs.com) on March 20th, 2014.
+This is a repository holding instructions on building a server like the one used in my presentaion at [BrooklynJS](http://brooklynjs.com) on March 20th, 2014.
 
 ## Setup
-I have included a [Vagrantfile](#link) for a VirtualBox with ubuntu precise 12.04, kernel version 3.8, nginx, & docker pre-installed.
+I have included a [Vagrantfile](https://github.com/jfrazelle/docker-presentation/blob/master/Vagrantfile) for a VirtualBox with ubuntu precise 12.04, kernel version 3.8, nginx, & docker pre-installed.
+
+You have one of two options for setup:
+
+- [Using the included Vagrantfile](#using-the-included-vagrantfile)
+- [Roll your own](#if-you-want-to-roll-your-own)
 
 ### Using the included Vagrantfile
 
-This is the easiest route. Just make sure you have [VirtualBox](#installing-virtualbox) and [Vagrant](#vagrant) installed.
+This is the easiest route. Just make sure you have [VirtualBox](#installing-virtualbox) and [Vagrant](#installing-vagrant) installed.
 
 ```bash
 $ vagrant up
@@ -55,7 +60,7 @@ Then just add the following to your `.bash_profile` to source the completions:
 
 ### If you want to roll your own
 
-I have included [provision.sh](#link), which will install nginx and docker. You can also uncomment [lines 6-7](#link) and upgrade your kernel to 3.8, but note **this requires a reboot following install of the new kernel**.
+I have included [provision.sh](https://github.com/jfrazelle/docker-presentation/blob/master/provision.sh), which will install nginx and docker. You can also uncomment [lines 14-15](https://github.com/jfrazelle/docker-presentation/blob/master/provision.sh#L14-15) and upgrade your kernel to 3.8, but note **this requires a `reboot` following install of the new kernel**.
 
 **Don't know your kernel version?** Just type `uname -a` in the command line and it will return it for you.
 
@@ -77,4 +82,5 @@ sudo apt-get install linux-image-generic-lts-raring linux-headers-generic-lts-ra
 sudo reboot
 ```
 
-**This is all in [provision.sh](#link) as well**
+**This is all in [provision.sh](https://github.com/jfrazelle/docker-presentation/blob/master/provision.sh) as well**
+
