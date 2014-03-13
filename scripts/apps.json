@@ -24,7 +24,7 @@
 },
 {
     "name": "node_ghost",
-    "lang": "node",
+    "lang": "node-sqlite3",
     "subdomain": "ghost",
     "port": 2368
 }]

@@ -11,14 +11,16 @@ fi
 
 cd /apps
 
-langs=( node python ruby go )
+apps=( node python ruby go ghost )
 
 # loop through langs
 # build
-for lang in "${langs[@]}"
+for app in "${apps[@]}"
 do
+    app_conf=$(cat ${dir}/apps.json | jq .[] | jq 'select(.subdomain == "'${app}'")')
+    lang=$(echo ${app_conf} | jq --raw-output '.lang')
     colorize "<cyan>building ${lang}...</cyan>"
-    docker build --no-cache --rm -t  ${lang}/base ${lang}/
+    docker build --rm -t  ${lang}/base ${app}/
 done
 
 # clean up

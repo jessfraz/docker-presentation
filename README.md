@@ -122,6 +122,12 @@ $ cd /apps
 $ sudo docker build --rm -t node/base node/
 ```
 
+*with sqlite3*
+
+```bash
+$ sudo docker build --rm -t node-sqlite3/base ghost/
+```
+
 **python**
 
 ```bash
@@ -179,11 +185,11 @@ $ sudo docker run --name node_hello_world -p 3000 -d node/base
 $ sudo /scripts/publish node 0.0.0.0:<port>
 ```
 
-ghost blog example: *note how we are reusing the same base, yep it still works, that's the awesome thing about a good base* :)
+ghost blog example
 
 ```bash
 $ cd /apps/ghost
-$ sudo docker run --name node_ghost -p 3000 -d node/base
+$ sudo docker run --name node_ghost -p 3000 -d node-sqlite3/base
 $ sudo /scripts/publish ghost 0.0.0.0:<port>
 ```
 
