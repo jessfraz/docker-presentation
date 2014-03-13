@@ -230,3 +230,5 @@ fi
 **`TODO`**: add some notes about how to attach logs
 
 **`TODO`**: talk about how easily this could be automated
+
+**`TODO`**: explain how for the purposes of this I have seperate dockerfiles, but in a perfect world you would have images based off languages. Then in other dockerfiles that use that language you can import `FROM lang/base`. Since the cache works from the top to the bottom you want all the similar things that most dockerfiles have at the top and then the volatile changes at the bottom.
