@@ -9,7 +9,7 @@ if [ "$UID" -ne 0 ]; then
   exit 1
 fi
 
-apps=( node python ruby go )
+apps=( node python ruby go ghost )
 
 # make sure clean
 /scripts/clean-docker
