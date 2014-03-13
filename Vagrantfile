@@ -11,6 +11,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "jess/ubuntu-precise-nginx-docker"
   config.vm.box_check_update = true
 
+  config.vm.provision :shell, :inline => "
+  apt-get install jq
+  "
+
   config.vm.provider :virtualbox do |vb|
     vb.name = "docker-presentation"
     vb.customize ["modifyvm", :id, "--cpus", 4]
