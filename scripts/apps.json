@@ -1,0 +1,24 @@
+[{
+    "name": "node_hello_world",
+    "lang": "node",
+    "subdomain": "node",
+    "port": 3000
+},
+{
+    "name": "python_hello_world",
+    "lang": "python",
+    "subdomain": "python",
+    "port": 5000
+},
+{
+    "name": "ruby_hello_world",
+    "lang": "ruby",
+    "subdomain": "ruby",
+    "port": 4567
+},
+{
+    "name": "go_hello_world",
+    "lang": "go",
+    "subdomain": "go",
+    "port": 8080
+}]

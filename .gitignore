@@ -47,3 +47,5 @@ venv
 .vagrant/
 
 package.box
+
+*.lock

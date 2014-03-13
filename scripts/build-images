@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# source colors
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "${dir}/colorizer-lib/colorizer.sh"
+
+if [ "$UID" -ne 0 ]; then
+  colorize "<red>Please run as root</red>"
+  exit 1
+fi
+
+cd /apps
+
+# node
+colorize "<cyan>building node...</cyan>"
+docker build --rm -t node/base node/
+
+# python
+colorize "<yellow>building python...</yellow>"
+docker build --rm -t python/base python/
+
+# ruby
+colorize "<purple>building ruby...</purple>"
+docker build --rm -t ruby/base ruby/
+
+# go
+colorize "<blue>building go...</blue>"
+docker build --rm -t go/base go/
+
+# clean up
+/scripts/clean-docker
+
+colorize "<white>Done!!</white>"

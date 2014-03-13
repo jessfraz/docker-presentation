@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# source colors
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "${dir}/colorizer-lib/colorizer.sh"
+
+if [ "$UID" -ne 0 ]; then
+  colorize "<red>Please run as root</red>"
+  exit 1
+fi
+
+apps=( node python ruby go )
+
+# make sure clean
+/scripts/clean-docker
+
+
+# loop through apps
+# run and publish
+for app in "${apps[@]}"
+do
+    cd /apps/${app}
+
+    app_conf=$(cat ${dir}/apps.json | jq .[] | jq 'select(.subdomain == "'${app}'")')
+    port=$(echo ${app_conf} | jq '.port')
+    name=$(echo ${app_conf} | jq --raw-output '.name')
+    subdomain=$(echo ${app_conf} | jq --raw-output '.subdomain')
+
+    colorize "Running <cyan>${app}</cyan> as <yellow>${app}_hello_world</yellow>"
+
+    container_id=$(docker run --name ${name} -p ${port} -d ${app}/base)
+    container_port=$(docker ps | grep ${name} | awk ' { print ( $(NF-1) ) }')
+    clean_port=${container_port%-*}
+
+    /scripts/publish ${subdomain} ${clean_port}
+done

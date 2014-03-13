@@ -18,7 +18,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
   end
 
-  config.vm.synced_folder "~", "/docker-base-files"
-  config.vm.synced_folder "~", "/apps"
+  config.vm.synced_folder "./apps", "/apps"
+  config.vm.synced_folder "./nginx", "/nginx"
+  config.vm.synced_folder "./scripts", "/scripts"
   config.vm.network "forwarded_port", guest: 80, host: 1234, auto_correct: true
 end

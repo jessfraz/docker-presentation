@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+### Usage:
+###    publish <subdomain> <container_ip>
+### --help
+###
+### Publish HTTP traffic from the container port:/ out to the
+### desired subdomain by creating an nginx location
+
+help=$(grep "^### " "$0" | cut -c 5-)
+set -e
+
+# source colors
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "${dir}/colorizer-lib/colorizer.sh"
+
+if [ $1 ]; then
+  if [[ "${1}" == "help" ]]; then
+    echo ${help}
+  else
+    subdomain=$1
+    container_ip=$2
+    NGINX_CONF=/etc/nginx
+
+    if [[ "${subdomain}" == "" ]]; then
+      colorize "<red>You must give a container ip.</red>"
+      exit 1
+    fi
+
+    if [[ "${container_ip}" == "" ]]; then
+      colorize "<red>You must give a subdomain.</red>"
+      exit 1
+    fi
+
+    HOSTNAME=$(hostname)
+    PUBLISH_CONF="${NGINX_CONF}/apps-enabled/${subdomain}.conf"
+
+    # create the directory if it does not exist
+    test ! -d "${NGINX_CONF}/apps-enabled" && mkdir -p "${NGINX_CONF}/apps-enabled"
+
+    # create the file
+    cat << EOF > "${PUBLISH_CONF}"
+upstream $subdomain { server ${container_ip}; }
+server {
+  listen      80;
+  server_name $subdomain.localhost;
+  location    / {
+    proxy_pass  http://$subdomain;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade \$http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    proxy_set_header Host \$http_host;
+    proxy_set_header X-Forwarded-Proto \$scheme;
+    proxy_set_header X-Forwarded-For \$remote_addr;
+    proxy_set_header X-Forwarded-Port \$server_port;
+    proxy_set_header X-Request-Start \$msec;
+  }
+}
+EOF
+
+    # restart nginx
+    nginx -s reload
+
+    colorize "<white>published http://${container_ip} to http://${subdomain}.localhost</white>"
+  fi
+else
+  echo ${help}
+fi

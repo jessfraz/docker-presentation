@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# source colors
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "${dir}/colorizer-lib/colorizer.sh"
+
+if [ "$UID" -ne 0 ]; then
+  colorize "<red>Please run as root</red>"
+  exit 1
+fi
+
+# clean
+colorize "<blue>Hold tight... cleaning...</blue>"
+docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+colorize "<yellow>Docker is now all clean.</yellow>"
