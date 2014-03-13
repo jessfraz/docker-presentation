@@ -13,6 +13,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :shell, :inline => "
   apt-get install jq
+  rm -rf /etc/nginx
+  mkdir /etc/nginx
+  cp -r /nginx/* /etc/nginx/
+  service nginx restart
+  /script/build-images
+  /script/run-apps
   "
 
   config.vm.provider :virtualbox do |vb|
