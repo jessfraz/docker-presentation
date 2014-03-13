@@ -9,6 +9,7 @@ if [ "$UID" -ne 0 ]; then
   exit 1
 fi
 
+# TODO: make this use jq (this is dumb)
 apps=( node python ruby go ghost )
 
 # make sure clean
@@ -22,13 +23,14 @@ do
     cd /apps/${app}
 
     app_conf=$(cat ${dir}/apps.json | jq .[] | jq 'select(.subdomain == "'${app}'")')
+    lang=$(echo ${app_conf} | jq --raw-output '.lang')
     port=$(echo ${app_conf} | jq '.port')
     name=$(echo ${app_conf} | jq --raw-output '.name')
     subdomain=$(echo ${app_conf} | jq --raw-output '.subdomain')
 
-    colorize "Running <cyan>${app}</cyan> as <yellow>${app}_hello_world</yellow>"
+    colorize "Running <cyan>${app}</cyan> as <yellow>${name}</yellow>"
 
-    container_id=$(docker run --name ${name} -p ${port} -d ${app}/base)
+    container_id=$(docker run --name ${name} -p ${port} -d ${lang}/base)
     container_port=$(docker ps | grep ${name} | awk ' { print ( $(NF-1) ) }')
     clean_port=${container_port%-*}
 

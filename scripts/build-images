@@ -11,21 +11,15 @@ fi
 
 cd /apps
 
-# node
-colorize "<cyan>building node...</cyan>"
-docker build --rm -t node/base node/
+langs=( node python ruby go )
 
-# python
-colorize "<yellow>building python...</yellow>"
-docker build --rm -t python/base python/
-
-# ruby
-colorize "<purple>building ruby...</purple>"
-docker build --rm -t ruby/base ruby/
-
-# go
-colorize "<blue>building go...</blue>"
-docker build --rm -t go/base go/
+# loop through langs
+# build
+for lang in "${langs[@]}"
+do
+    colorize "<cyan>building ${lang}...</cyan>"
+    docker build --no-cache --rm -t  ${lang}/base ${lang}/
+done
 
 # clean up
 /scripts/clean-docker
