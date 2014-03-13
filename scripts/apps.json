@@ -21,4 +21,10 @@
     "lang": "go",
     "subdomain": "go",
     "port": 8080
+},
+{
+    "name": "node_ghost",
+    "lang": "node",
+    "subdomain": "ghost",
+    "port": 2368
 }]

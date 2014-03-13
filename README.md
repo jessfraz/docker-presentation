@@ -171,10 +171,20 @@ $ sudo service nginx restart
 
 **node**
 
+hello world example
+
 ```bash
 $ cd /apps/node
 $ sudo docker run --name node_hello_world -p 3000 -d node/base
 $ sudo /scripts/publish node 0.0.0.0:<port>
+```
+
+ghost blog example: *note how we are reusing the same base, yep it still works, thats rhe awesome thing about a good base* :)
+
+```bash
+$ cd /apps/ghost
+$ sudo docker run --name node_ghost -p 3000 -d node/base
+$ sudo /scripts/publish ghost 0.0.0.0:<port>
 ```
 
 **python**
