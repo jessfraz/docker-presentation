@@ -1,6 +1,6 @@
 # Docker Presentation
 
-This is a repository holding instructions on building a server like the one used in my presentaion at [BrooklynJS](http://brooklynjs.com) on March 20th, 2014.
+This is a repository holding instructions on building a server like the one used in my presentation at [BrooklynJS](http://brooklynjs.com) on March 20th, 2014.
 
 ## Table of Contents
 - [Setup](#setup)
@@ -165,7 +165,7 @@ $ sudo service nginx restart
 
 ## Run Apps
 
-**`TODO`**: run apps instructions, talk about caching awesomeness, nginx proxys, publish script
+**`TODO`**: run apps instructions, talk about caching awesomeness, nginx proxys, publish script to subdomain
 
 ### `docker run`
 
@@ -211,6 +211,6 @@ fi
 
 **`TODO`**: pull some apps from git in dockerfile
 
-**`TODO`**: add some notes about how to attach logs, shit this is getting long
+**`TODO`**: add some notes about how to attach logs
 
 **`TODO`**: talk about how easily this could be automated
