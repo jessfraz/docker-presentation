@@ -119,7 +119,7 @@ $ sudo docker build --rm -t node/base node/
 *with sqlite3*
 
 ```bash
-$ sudo docker build --rm -t node-sqlite3/base ghost/
+$ sudo docker build --rm -t ghost/base ghost/
 ```
 
 **python**
@@ -183,7 +183,7 @@ ghost blog example
 
 ```bash
 $ cd /apps/ghost
-$ sudo docker run --name node_ghost -p 3000 -d node-sqlite3/base
+$ sudo docker run --name node_ghost -p 3000 -d ghost/base
 $ sudo /scripts/publish ghost 0.0.0.0:<port>
 ```
 
@@ -191,7 +191,7 @@ $ sudo /scripts/publish ghost 0.0.0.0:<port>
 
 ```bash
 $ cd /apps/python
-$ sudo docker run --name python_hello_world -p 5000 -d python/base python /src/app.py
+$ sudo docker run --name python_hello_world -p 5000 -d python/base
 $ sudo /scripts/publish python 0.0.0.0:<port>
 ```
 
@@ -199,7 +199,7 @@ $ sudo /scripts/publish python 0.0.0.0:<port>
 
 ```bash
 $ cd /apps/ruby
-$ sudo docker run --name ruby_hello_world -p 4567 -d ruby/base ruby /src/app.rb
+$ sudo docker run --name ruby_hello_world -p 4567 -d ruby/base
 $ sudo /scripts/publish ruby 0.0.0.0:<port>
 ```
 
@@ -207,7 +207,7 @@ $ sudo /scripts/publish ruby 0.0.0.0:<port>
 
 ```bash
 $ cd /apps/go
-$ sudo docker build --rm -t go/base
+$ sudo docker run --name go_hello_world -p 8080 -d go/base
 $ sudo /scripts/publish go 0.0.0.0:<port>
 ```
 
