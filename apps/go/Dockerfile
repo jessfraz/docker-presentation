@@ -19,3 +19,9 @@ RUN curl -s https://go.googlecode.com/files/go1.2.linux-amd64.tar.gz | tar -v -C
 ENV PATH  /usr/local/go/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
 ENV GOPATH  /go
 ENV GOROOT  /usr/local/go
+
+ADD . /src
+
+WORKDIR /src
+
+CMD go run app.go
