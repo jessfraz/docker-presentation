@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# source colors
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "${dir}/colorizer-lib/colorizer.sh"
+
+if [ "$UID" -ne 0 ]; then
+  colorize "<red>Please run as root</red>"
+  exit 1
+fi
+
+rm -rf /etc/nginx
+mkdir /etc/nginx
+cp -r /nginx/* /etc/nginx/
+
+# restart nginx
+service nginx restart
+
+colorize "<purple>nginx</purple> <white>is now setup!!</white>"

@@ -19,8 +19,13 @@ for app in "${apps[@]}"
 do
     app_conf=$(cat ${dir}/apps.json | jq .[] | jq 'select(.subdomain == "'${app}'")')
     lang=$(echo ${app_conf} | jq --raw-output '.lang')
-    colorize "<cyan>building ${lang}...</cyan>"
-    docker build --rm -t  ${lang}/base ${app}/
+    image_name=${lang}/base
+    if docker images | awk '{ print $1 }' | grep "^${image_name}$" > /dev/null; then
+        colorize "<red>${IMAGE_NAME} was already built!</red>"
+    else
+        colorize "<cyan>building ${lang}...</cyan>"
+        docker build --rm -t  ${lang}/base ${app}/
+    fi
 done
 
 # clean up

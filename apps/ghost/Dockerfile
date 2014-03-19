@@ -12,14 +12,28 @@ RUN apt-get -y install nodejs
 # install sqlite3
 RUN apt-get install -y --force-yes sqlite3
 
-# add the source
-ADD . /src
+# Install unzip
+RUN apt-get install -y unzip
 
-# install modules
-RUN cd /src; npm install --production
+# Install curl
+RUN apt-get install -y curl
 
 WORKDIR /src
 
-ENV NODE_ENV production
+# Download Ghost v0.4.1
+RUN curl -L https://ghost.org/zip/ghost-latest.zip -o /tmp/ghost.zip
 
-CMD npm start
+# Unzip Ghost zip to /src
+RUN unzip -uo /tmp/ghost.zip -d /src
+
+# Add custom config js to /data/ghost
+ADD ./config.js /src/config.js
+
+# Install Ghost with NPM
+RUN cd /src; npm install --production
+
+RUN cd /src; npm install -g forever
+
+EXPOSE 2368
+
+CMD forever start --debug --verbose --minUptime 5000 --sourceDir /src --spinSleepTime 2000 -a -l /src/log index.js && tail -f /src/log

@@ -2,12 +2,6 @@
 
 This is a repository holding instructions on building a server like the one used in my presentation at [BrooklynJS](http://brooklynjs.com) on March 20th, 2014.
 
-## Table of Contents
-- [Setup](#setup)
-- [Build Base Images](#build-base-images)
-- [Setup `nginx`](#setup-nginx)
-- [Run Apps](#run-apps)
-
 ## Setup
 I have included a [Vagrantfile](https://github.com/jfrazelle/docker-presentation/blob/master/Vagrantfile) for a VirtualBox with ubuntu precise 12.04, kernel version 3.8, nginx, & docker pre-installed.
 
@@ -215,14 +209,6 @@ $ sudo /scripts/publish ruby 0.0.0.0:<port>
 $ cd /apps/go
 $ sudo docker build --rm -t go/base
 $ sudo /scripts/publish go 0.0.0.0:<port>
-```
-
-```bash
-if docker images | awk '{ print $1 }' | grep "^${IMAGE_NAME}$" > /dev/null; then
-  info "${IMAGE_NAME} was already built"
-else
-    # run the build
-fi
 ```
 
 **`TODO`**: pull some apps from git in dockerfile
