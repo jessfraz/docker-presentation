@@ -218,3 +218,6 @@ $ cd /apps/go
 $ sudo docker run --name go_hello_world -p 8080 -d go/base
 $ sudo /scripts/publish go 0.0.0.0:<port>
 ```
+
+
+[![Analytics](https://ga-beacon.appspot.com/UA-29404280-16/docker-presentation/README.md)](https://github.com/jfrazelle/docker-presentation)
