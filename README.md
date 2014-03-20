@@ -98,7 +98,7 @@ If you `ssh` into the vagrant box with the `Vagrantfile` provided, the directori
 **`TODO`**: talk about caching and how its awesome
 
 ### `docker build`
-To build the base images, we are going to use the [`docker build`](http://docs.docker.io/en/latest/reference/commandline/cli/#build) command.
+To build the base images, we are going to use the [`docker build`](http://docs.docker.io/en/latest/reference/commandline/cli/#build) command. [More info](http://docs.docker.io/en/latest/reference/commandline/cli/#build)
 
 Options we are using:
 - **`--rm`**: Remove intermediate containers after a successful build
@@ -165,9 +165,13 @@ $ sudo service nginx restart
 
 ## Run Apps
 
-**`TODO`**: run apps instructions, talk about caching awesomeness, nginx proxys, publish script to subdomain
-
 ### `docker run`
+The docker run command first creates a writeable container layer over the specified image, and then starts it using the specified command. [More info](http://docs.docker.io/en/latest/reference/commandline/cli/#run)
+
+Options we are using:
+- **`-d`**: Detached mode: Run container in the background, print new container id
+- **`--name`**: Assign the specified name to the container. If no name is specific docker will generate a random name
+- **`-p`**: Map a network port to the container
 
 **node**
 

@@ -41,6 +41,7 @@ test/
 
 node_modules/
 bower_components/
+slides/
 
 venv
 .DS_Store
