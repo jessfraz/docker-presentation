@@ -1,6 +1,6 @@
 # Docker Presentation
 
-This is a repository holding instructions on building a server like the one used in my presentation at [BrooklynJS](http://brooklynjs.com) on March 20th, 2014.
+This is a repository holding instructions on building a server like the one used in my presentation at [BrooklynJS](http://brooklynjs.com) on March 20th, 2014. You can find my slides [here](http://jesss.s3-website-us-west-1.amazonaws.com/docker-presentation/).
 
 ## Setup
 I have included a [Vagrantfile](https://github.com/jfrazelle/docker-presentation/blob/master/Vagrantfile) for a VirtualBox with ubuntu precise 12.04, kernel version 3.8, nginx, & docker pre-installed.
@@ -97,7 +97,7 @@ If you `ssh` into the vagrant box with the `Vagrantfile` provided, the directori
 
 This is a great reference on caching and best parctices: [Docker Best Practices](http://crosbymichael.com/dockerfile-best-practices.html).
 
-**NOTE**: For the purposes of this I have seperate dockerfiles, but in a perfect world you would have images based off languages. Then in other dockerfiles that use that language you can import `FROM lang/base`. Since the cache works from the top to the bottom you want all the similar things that most dockerfiles have at the top and then the volatile changes at the bottom.
+**NOTE**: For the purposes of this I have seperate dockerfiles, but in a perfect world you would have images based off languages. Then in other dockerfiles that use that language you can import `FROM lang/base`. Like the example in my [slides](http://jesss.s3-website-us-west-1.amazonaws.com/docker-presentation/#6). Since the cache works from the top to the bottom you want all the similar things that most dockerfiles have at the top and then the volatile changes at the bottom.
 
 ### `docker build`
 To build the base images, we are going to use the [`docker build`](http://docs.docker.io/en/latest/reference/commandline/cli/#build) command. [More info](http://docs.docker.io/en/latest/reference/commandline/cli/#build)
