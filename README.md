@@ -174,8 +174,8 @@ The docker run command first creates a writeable container layer over the specif
 Options we are using:
 
 - **`-d`**: Detached mode: Run container in the background, print new container id
-- **`--name`**: Assign the specified name to the container. If no name is specific docker will generate a random name
-- **`-p`**: Map a network port to the container
+- **`--name <name>`**: Assign the specified name to the container. If no name is specific docker will generate a random name
+- **`-p <port>`**: Map a network port to the container
 
 **node**
 
