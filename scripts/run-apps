@@ -20,8 +20,6 @@ apps=( node python ruby go ghost )
 # run and publish
 for app in "${apps[@]}"
 do
-    cd /apps/${app}
-
     app_conf=$(cat ${dir}/apps.json | jq .[] | jq 'select(.subdomain == "'${app}'")')
     lang=$(echo ${app_conf} | jq --raw-output '.lang')
     port=$(echo ${app_conf} | jq '.port')

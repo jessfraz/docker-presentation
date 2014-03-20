@@ -182,7 +182,6 @@ Options we are using:
 hello world example
 
 ```bash
-$ cd /apps/node
 $ sudo docker run --name node_hello_world -p 3000 -d node/base
 $ sudo /scripts/publish node 0.0.0.0:<port>
 ```
@@ -190,7 +189,6 @@ $ sudo /scripts/publish node 0.0.0.0:<port>
 ghost blog example
 
 ```bash
-$ cd /apps/ghost
 $ sudo docker run --name node_ghost -p 3000 -d ghost/base
 $ sudo /scripts/publish ghost 0.0.0.0:<port>
 ```
@@ -198,7 +196,6 @@ $ sudo /scripts/publish ghost 0.0.0.0:<port>
 **python**
 
 ```bash
-$ cd /apps/python
 $ sudo docker run --name python_hello_world -p 5000 -d python/base
 $ sudo /scripts/publish python 0.0.0.0:<port>
 ```
@@ -206,7 +203,6 @@ $ sudo /scripts/publish python 0.0.0.0:<port>
 **ruby**
 
 ```bash
-$ cd /apps/ruby
 $ sudo docker run --name ruby_hello_world -p 4567 -d ruby/base
 $ sudo /scripts/publish ruby 0.0.0.0:<port>
 ```
@@ -214,7 +210,6 @@ $ sudo /scripts/publish ruby 0.0.0.0:<port>
 **go**
 
 ```bash
-$ cd /apps/go
 $ sudo docker run --name go_hello_world -p 8080 -d go/base
 $ sudo /scripts/publish go 0.0.0.0:<port>
 ```
