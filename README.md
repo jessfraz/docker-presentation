@@ -95,12 +95,15 @@ A base image is what docker pulls from to start the build. You can find trusted 
 
 If you `ssh` into the vagrant box with the `Vagrantfile` provided, the directories are synced and these should be located at `/docker-base-files` in your vagrant box. Included in the directory are *extremely* minimal Dockerfiles for [`node`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/node/Dockerfile), [`python`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/python/Dockerfile), [`ruby`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/ruby/Dockerfile), and [`go`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/go/Dockerfile).
 
-**`TODO`**: talk about caching and how its awesome
+This is a great reference on caching and best parctices: [Docker Best Practices](http://crosbymichael.com/dockerfile-best-practices.html).
+
+**NOTE**: For the purposes of this I have seperate dockerfiles, but in a perfect world you would have images based off languages. Then in other dockerfiles that use that language you can import `FROM lang/base`. Since the cache works from the top to the bottom you want all the similar things that most dockerfiles have at the top and then the volatile changes at the bottom.
 
 ### `docker build`
 To build the base images, we are going to use the [`docker build`](http://docs.docker.io/en/latest/reference/commandline/cli/#build) command. [More info](http://docs.docker.io/en/latest/reference/commandline/cli/#build)
 
 Options we are using:
+
 - **`--rm`**: Remove intermediate containers after a successful build
 - **`-t <tag-name>`**: Repository name (and optionally a tag) to be applied
          to the resulting image in case of success
@@ -169,6 +172,7 @@ $ sudo service nginx restart
 The docker run command first creates a writeable container layer over the specified image, and then starts it using the specified command. [More info](http://docs.docker.io/en/latest/reference/commandline/cli/#run)
 
 Options we are using:
+
 - **`-d`**: Detached mode: Run container in the background, print new container id
 - **`--name`**: Assign the specified name to the container. If no name is specific docker will generate a random name
 - **`-p`**: Map a network port to the container
@@ -214,6 +218,3 @@ $ cd /apps/go
 $ sudo docker run --name go_hello_world -p 8080 -d go/base
 $ sudo /scripts/publish go 0.0.0.0:<port>
 ```
-
-**`TODO`**: explain how for the purposes of this I have seperate dockerfiles, but in a perfect world you would have images based off languages. Then in other dockerfiles that use that language you can import `FROM lang/base`. Since the cache works from the top to the bottom you want all the similar things that most dockerfiles have at the top and then the volatile changes at the bottom.
-- talk about how easily this could be automated
