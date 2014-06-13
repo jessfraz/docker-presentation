@@ -1,6 +1,6 @@
 # Docker Presentation
 
-This is a repository holding instructions on building a server like the one used in my presentation at [BrooklynJS](http://brooklynjs.com) on March 20th, 2014. You can find my slides [here](http://jesss.s3-website-us-west-1.amazonaws.com/docker-presentation/).
+This is a repository holding instructions on building a server like the one used in my presentation at [BrooklynJS](http://brooklynjs.com) on March 20th, 2014. You can find my slides here: [http://decks.jessfraz.com/brooklyn-js/docker/](http://decks.jessfraz.com/brooklyn-js/docker/).
 
 ## Setup
 I have included a [Vagrantfile](https://github.com/jfrazelle/docker-presentation/blob/master/Vagrantfile) for a VirtualBox with ubuntu precise 12.04, kernel version 3.8, nginx, & docker pre-installed.
