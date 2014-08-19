@@ -4,14 +4,14 @@ This is a repository holding instructions on building a server like the one used
 
 When you are all finished reading this and understand the `build` and `run`docker commands, checkout the [scripts](scripts) directory. I sealed all this up in a bow for you.
 
-- [`/scripts/setup-nginx`](scripts/setup-nginx): sets up the main nginx config with the apps-enabled directory
-- [`/scripts/build-images`](scripts/build-images): builds the base images
-- [`/scripts/run-apps`](scripts/run-apps): spins up all the containers for the apps and routes them accordingly with [`/scripts/publish`](scripts/publish)
+- [`setup-nginx`](scripts/setup-nginx): sets up the main nginx config with the apps-enabled directory
+- [`build-images`](scripts/build-images): builds the base images
+- [`run-apps`](scripts/run-apps): spins up all the containers for the apps and routes them accordingly with [`publish`](scripts/publish)
 
 But, I would highly suggest looking these over and seeing how they work, there's some fun things with `grep` and `awk`.
 
 ## Setup
-I have included a [Vagrantfile](https://github.com/jfrazelle/docker-presentation/blob/master/Vagrantfile) for a VirtualBox with ubuntu precise 12.04, kernel version 3.8, nginx, & docker pre-installed.
+I have included a [Vagrantfile](https://github.com/jfrazelle/docker-presentation/blob/master/Vagrantfile) for a VirtualBox with ubuntu trusty 14.04. It will also provision nginx, & docker for you on the first `vagrant up`.
 
 You have one of two options for setup:
 
@@ -73,15 +73,18 @@ Then just add the following to your `.bash_profile` to source the completions:
 
 ### If you want to roll your own
 
-I have included [provision.sh](https://github.com/jfrazelle/docker-presentation/blob/master/provision.sh), which will install nginx and docker. You can also uncomment [lines 14-15](https://github.com/jfrazelle/docker-presentation/blob/master/provision.sh#L14-15) and upgrade your kernel to 3.8, but note **this requires a `reboot` following install of the new kernel**.
-
-**Don't know your kernel version?** Just type `uname -a` in the command line and it will return it for you.
+I have included [provision.sh](https://github.com/jfrazelle/docker-presentation/blob/master/provision.sh), which will install nginx and docker.
 
 ```bash
 $ sudo ./provision.sh
 ```
 
 #### Installing linux kernel 3.8
+
+If using ubuntu 12.04 (precise) you will need to upgrade the kernel.
+
+**Don't know your kernel version?** Just type `uname -a` in the command line and it will return it for you.
+
 To quote the docker docs:
 
 > Due to a bug in LXC, Docker works best on the 3.8 kernel. Precise comes with a 3.2 kernel, so we need to upgrade it. The kernel you’ll install when following these steps comes with AUFS built in. We also include the generic headers to enable packages that depend on them, like ZFS and the VirtualBox guest additions. If you didn’t install the headers for your “precise” kernel, then you can skip these headers for the “raring” kernel. But it is safer to include them if you’re not sure.
@@ -95,17 +98,15 @@ $ sudo apt-get install linux-image-generic-lts-raring linux-headers-generic-lts-
 $ sudo reboot
 ```
 
-**This is all in [provision.sh](https://github.com/jfrazelle/docker-presentation/blob/master/provision.sh) as well**
-
 ## Build Base Images
 
 A base image is what docker pulls from to start the build. You can find trusted base images in the [docker index](https://index.docker.io/). Now for this I have already created a slew of dockerfiles that we will create base images from in the [apps](https://github.com/jfrazelle/docker-presentation/blob/master/apps/) directory.
 
-If you `ssh` into the vagrant box with the `Vagrantfile` provided, the directories are synced and these should be located at `/docker-base-files` in your vagrant box. Included in the directory are *extremely* minimal Dockerfiles for [`node`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/node/Dockerfile), [`python`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/python/Dockerfile), [`ruby`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/ruby/Dockerfile), and [`go`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/go/Dockerfile).
+If you `ssh` into the vagrant box with the `Vagrantfile` provided, the directories are synced and these should be located at `/var/presentation/apps` in your vagrant box. Included in the directory are *extremely* minimal Dockerfiles for [`node`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/node/Dockerfile), [`python`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/python/Dockerfile), [`ruby`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/ruby/Dockerfile), and [`go`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/go/Dockerfile).
 
 This is a great reference on caching and best parctices: [Docker Best Practices](http://crosbymichael.com/dockerfile-best-practices.html).
 
-**NOTE**: For the purposes of this I have seperate dockerfiles, but in a perfect world you would have images based off languages. Then in other dockerfiles that use that language you can import `FROM lang/base`. Like the example in my [slides](http://jesss.s3-website-us-west-1.amazonaws.com/docker-presentation/#6). Since the cache works from the top to the bottom you want all the similar things that most dockerfiles have at the top and then the volatile changes at the bottom.
+**NOTE**: For the purposes of this I have seperate dockerfiles, but in a perfect world you would have images based off languages. Then in other dockerfiles that use that language you can import `FROM lang/base`. Like the example in my [slides](http://decks.jessfraz.com/brooklyn-js/docker/#6). Since the cache works from the top to the bottom you want all the similar things that most dockerfiles have at the top and then the volatile changes at the bottom.
 
 ### `docker build`
 To build the base images, we are going to use the [`docker build`](http://docs.docker.io/en/latest/reference/commandline/cli/#build) command. [More info](http://docs.docker.io/en/latest/reference/commandline/cli/#build)
@@ -118,7 +119,7 @@ Options we are using:
 
 
 ```bash
-$ cd /apps
+$ cd /var/presentation/apps
 ```
 
 **node**
@@ -130,7 +131,7 @@ $ sudo docker build --rm -t node/base node/
 *with sqlite3*
 
 ```bash
-$ sudo docker build --rm -t ghost/base ghost/
+$ sudo docker build --rm -t ghost/base blog/
 ```
 
 **python**
@@ -148,7 +149,7 @@ $ sudo docker build --rm -t ruby/base ruby/
 **go**
 
 ```bash
-$ sudo docker build --rm -t go/base go/
+$ sudo docker build --rm -t golang/base go/
 ```
 
 #### View your images
@@ -168,7 +169,7 @@ We are going to want to create proxy redirects on the fly so we are going to rep
 ```bash
 $ sudo rm -rf /etc/nginx
 $ sudo mkdir /etc/nginx
-$ sudo cp -r /nginx/* /etc/nginx/
+$ sudo cp -r /var/presentation/nginx/* /etc/nginx/
 
 # restart nginx
 $ sudo service nginx restart
@@ -191,35 +192,35 @@ hello world example
 
 ```bash
 $ sudo docker run --name node_hello_world -p 3000 -d node/base
-$ sudo /scripts/publish node 0.0.0.0:<port>
+$ sudo /var/presentation/scripts/publish node 0.0.0.0:<port>
 ```
 
 ghost blog example
 
 ```bash
 $ sudo docker run --name node_ghost -p 3000 -d ghost/base
-$ sudo /scripts/publish ghost 0.0.0.0:<port>
+$ sudo /var/presentation/scripts/publish blog 0.0.0.0:<port>
 ```
 
 **python**
 
 ```bash
 $ sudo docker run --name python_hello_world -p 5000 -d python/base
-$ sudo /scripts/publish python 0.0.0.0:<port>
+$ sudo /var/presentation/scripts/publish python 0.0.0.0:<port>
 ```
 
 **ruby**
 
 ```bash
 $ sudo docker run --name ruby_hello_world -p 4567 -d ruby/base
-$ sudo /scripts/publish ruby 0.0.0.0:<port>
+$ sudo /var/presentation/scripts/publish ruby 0.0.0.0:<port>
 ```
 
 **go**
 
 ```bash
-$ sudo docker run --name go_hello_world -p 8080 -d go/base
-$ sudo /scripts/publish go 0.0.0.0:<port>
+$ sudo docker run --name go_hello_world -p 8080 -d golang/base
+$ sudo /var/presentation/scripts/publish go 0.0.0.0:<port>
 ```
 
 

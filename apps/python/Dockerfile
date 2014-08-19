@@ -1,13 +1,13 @@
-FROM stackbrew/ubuntu:12.04
+FROM ubuntu:trusty
+MAINTAINER  Jessica Frazelle <github.com/jfrazelle>
 
-# update
-RUN apt-get update
-
-# install pip
-RUN apt-get -y install python-pip
+# install dependencies
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yq \
+    python-pip \
+    --no-install-recommends
 
 # add the source
-ADD . /src
+COPY . /src
 
 # install requirements
 RUN cd /src; pip install -U gunicorn

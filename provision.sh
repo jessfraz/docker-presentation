@@ -1,29 +1,48 @@
 #!/usr/bin/env bash
 
-if [ "$UID" -ne 0 ]; then
-  echo "Please run as root"
-  exit 1
-fi
+function main(){
+    if [ "$UID" -ne 0 ]; then
+        echo "Please run as root"
+        exit 1
+    fi
 
-apt-get update
+    apt-get update
+    apt-get -y upgrade
 
-# check kernel version
-uname -a
+    # install nginx
+    apt-get install -y --force-yes python-software-properties
+    add-apt-repository -y ppa:nginx/stable
+    apt-get install -y --force-yes nginx
 
-# to upgrade kernel to 3.8 if you to not have it, this requires a reboot
-# apt-get -y install linux-image-generic-lts-raring linux-headers-generic-lts-raring
-# reboot
+    # install jq
+    apt-get install jq
 
-# install nginx
-apt-get -y install python-software-properties
-add-apt-repository -y ppa:nginx/stable
-apt-get -y install --force-yes nginx
+    # install docker
+    curl -s https://get.docker.io/ubuntu/ | sudo sh
 
-# install docker
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
-sh -c "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
-apt-get update
-apt-get -y install lxc-docker
+    # create the docker group
+    groupadd docker > /dev/null
+    # Add the connected user "${USER}" to the docker group.
+    # Change the user name to match your preferred user.
+    # You may have to logout and log back in again for
+    # this to take effect.
 
-# verify docker installed
-docker --version
+    if id -u vagrant > /dev/null ; then
+        gpasswd -a vagrant docker
+    fi
+    if id -u ubuntu > /dev/null ; then
+        gpasswd -a ubuntu docker
+    fi
+
+    # restart docker
+    service docker restart
+
+    # verify docker installed
+    docker --version
+
+    if [[ -d /var/presentation/scripts/ ]]; then
+        chmod +x /var/presentation/scripts/*
+    fi
+}
+
+main

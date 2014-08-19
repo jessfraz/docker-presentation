@@ -9,7 +9,7 @@ config = {
     // ### Development **(default)**
     development: {
         // The url to use when providing links to the site, E.g. in RSS and email.
-        url: 'http://ghost.localhost:1234',
+        url: 'http://localhost:1234/blog/',
         database: {
             client: 'sqlite3',
             connection: {
@@ -32,7 +32,7 @@ config = {
     // When running Ghost in the wild, use the production environment
     // Configure your URL and mail settings here
     production: {
-        url: 'http://ghost.localhost:1234',
+        url: 'http://localhost:1234/blog/',
         mail: {},
         database: {
             client: 'sqlite3',
@@ -55,7 +55,7 @@ config = {
     // Used when developing Ghost to run tests and check the health of Ghost
     // Uses a different port number
     testing: {
-        url: 'http://ghost.localhost:1234',
+        url: 'http://localhost:1234/blog/',
         database: {
             client: 'sqlite3',
             connection: {
@@ -93,11 +93,11 @@ config = {
         database: {
             client: 'mysql',
             connection: {
-                host     : '127.0.0.1',
-                user     : 'travis',
-                password : '',
-                database : 'ghost_travis',
-                charset  : 'utf8'
+                host: '127.0.0.1',
+                user: 'travis',
+                password: '',
+                database: 'ghost_travis',
+                charset: 'utf8'
             }
         },
         server: {
@@ -114,11 +114,11 @@ config = {
         database: {
             client: 'pg',
             connection: {
-                host     : '127.0.0.1',
-                user     : 'postgres',
-                password : '',
-                database : 'ghost_travis',
-                charset  : 'utf8'
+                host: '127.0.0.1',
+                user: 'postgres',
+                password: '',
+                database: 'ghost_travis',
+                charset: 'utf8'
             }
         },
         server: {

@@ -4,33 +4,36 @@
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "${dir}/colorizer-lib/colorizer.sh"
 
-if [ "$UID" -ne 0 ]; then
-  colorize "<red>Please run as root</red>"
-  exit 1
-fi
+function run_apps(){
+    if [ "$UID" -ne 0 ]; then
+        colorize "<red>Please run as root</red>"
+        exit 1
+    fi
 
-# TODO: make this use jq (this is dumb)
-apps=( node python ruby go ghost )
+    # TODO: make this use jq (this is dumb)
+    apps=( node python ruby go blog )
 
-# make sure clean
-/scripts/clean-docker
+    # make sure clean
+    /var/presentation/scripts/clean-docker --hard
 
 
-# loop through apps
-# run and publish
-for app in "${apps[@]}"
-do
-    app_conf=$(cat ${dir}/apps.json | jq .[] | jq 'select(.subdomain == "'${app}'")')
-    lang=$(echo ${app_conf} | jq --raw-output '.lang')
-    port=$(echo ${app_conf} | jq '.port')
-    name=$(echo ${app_conf} | jq --raw-output '.name')
-    subdomain=$(echo ${app_conf} | jq --raw-output '.subdomain')
+    # loop through apps
+    # run and publish
+    for app in "${apps[@]}"; do
+        local app_conf=$(cat ${dir}/apps.json | jq .[] | jq 'select(.publish == "'${app}'")')
+        local lang=$(echo ${app_conf} | jq --raw-output '.lang')
+        local port=$(echo ${app_conf} | jq '.port')
+        local name=$(echo ${app_conf} | jq --raw-output '.name')
+        local app_name=$(echo ${app_conf} | jq --raw-output '.publish')
 
-    colorize "Running <cyan>${app}</cyan> as <yellow>${name}</yellow>"
+        colorize "Running <cyan>${app}</cyan> as <yellow>${name}</yellow>"
 
-    container_id=$(docker run --name ${name} -p ${port} -d ${lang}/base)
-    container_port=$(docker ps | grep ${name} | awk ' { print ( $(NF-1) ) }')
-    clean_port=${container_port%-*}
+        local container_id=$(docker run --name ${name} -p ${port} -d ${lang}/base)
+        local container_port=$(docker ps | grep ${name} | awk ' { print ( $(NF-1) ) }')
+        local clean_port=${container_port%-*}
 
-    /scripts/publish ${subdomain} ${clean_port}
-done
+        /var/presentation/scripts/publish ${app_name} ${clean_port}
+    done
+}
+
+run_apps

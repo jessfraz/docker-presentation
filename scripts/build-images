@@ -4,31 +4,30 @@
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "${dir}/colorizer-lib/colorizer.sh"
 
-if [ "$UID" -ne 0 ]; then
-  colorize "<red>Please run as root</red>"
-  exit 1
-fi
+function build_images(){
+    cd /var/presentation/apps
 
-cd /apps
+    apps=( node python ruby go blog )
 
-apps=( node python ruby go ghost )
+    # loop through langs
+    # build
+    for app in "${apps[@]}"; do
+        local app_conf=$(cat ${dir}/apps.json | jq .[] | jq 'select(.publish == "'${app}'")')
+        local lang=$(echo ${app_conf} | jq --raw-output '.lang')
+        local image_name=${lang}/base
 
-# loop through langs
-# build
-for app in "${apps[@]}"
-do
-    app_conf=$(cat ${dir}/apps.json | jq .[] | jq 'select(.subdomain == "'${app}'")')
-    lang=$(echo ${app_conf} | jq --raw-output '.lang')
-    image_name=${lang}/base
-    if docker images | awk '{ print $1 }' | grep "^${image_name}$" > /dev/null; then
-        colorize "<red>${IMAGE_NAME} was already built!</red>"
-    else
-        colorize "<cyan>building ${lang}...</cyan>"
-        docker build --rm -t  ${lang}/base ${app}/
-    fi
-done
+        if docker images | awk '{ print $1 }' | grep "^${image_name}$" > /dev/null; then
+            colorize "<red>${IMAGE_NAME} was already built!</red>"
+        else
+            colorize "<cyan>building ${lang}...</cyan>"
+            docker build --rm -t  ${lang}/base ${app}/
+        fi
+    done
 
-# clean up
-/scripts/clean-docker
+    # clean up
+    /var/presentation/scripts/clean-docker
 
-colorize "<white>Done!!</white>"
+    colorize "<white>Done!!</white>"
+}
+
+build_images

@@ -8,11 +8,11 @@ Vagrant.require_version ">= 1.5.0"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = BOX_NAME
-  config.vm.box = "jess/ubuntu-precise-nginx-docker"
+  config.vm.box = "ubuntu/trusty64"
   config.vm.box_check_update = true
 
   config.vm.provision :shell, :inline => "
-  apt-get install jq
+    /var/presentation/provision.sh
   "
 
   config.vm.provider :virtualbox do |vb|
@@ -22,8 +22,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
   end
 
-  config.vm.synced_folder "./apps", "/apps"
-  config.vm.synced_folder "./nginx", "/nginx"
-  config.vm.synced_folder "./scripts", "/scripts"
+  config.vm.synced_folder ".", "/var/presentation"
   config.vm.network "forwarded_port", guest: 80, host: 1234, auto_correct: true
 end
