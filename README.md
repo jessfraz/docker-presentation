@@ -77,9 +77,9 @@ I have included [provision.sh](https://github.com/jfrazelle/docker-presentation/
 $ sudo ./provision.sh
 ```
 
-#### Installing linux kernel 3.8
+#### Installing linux kernel 3.8 on precise
 
-If using ubuntu 12.04 (precise) you will need to upgrade the kernel.
+If using ubuntu 12.04 (precise) you will need to upgrade the kernel, if you are on trusty 14.04, skip this.
 
 **Don't know your kernel version?** Just type `uname -a` in the command line and it will return it for you.
 
