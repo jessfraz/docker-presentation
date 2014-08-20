@@ -23,11 +23,9 @@ You have one of two options for setup:
 This is the easiest route. Just make sure you have [VirtualBox](#installing-virtualbox) and [Vagrant](#installing-vagrant) installed.
 
 ```bash
-# install the box, it's a rather large box with everything pre-installed
-# it could take about ten min
-$ vagrant box add jess/ubuntu-precise-nginx-docker
-
-# bring the server up, ssh in
+# bring the server up
+# the first time you run vagrant up it provisions the box 
+# so it takes about 10 min
 $ vagrant up
 $ vagrant ssh
 ```
