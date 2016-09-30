@@ -11,7 +11,7 @@ When you are all finished reading this and understand the `build` and `run`docke
 But, I would highly suggest looking these over and seeing how they work, there's some fun things with `grep` and `awk`.
 
 ## Setup
-I have included a [Vagrantfile](https://github.com/jfrazelle/docker-presentation/blob/master/Vagrantfile) for a VirtualBox with ubuntu trusty 14.04. It will also provision nginx, & docker for you on the first `vagrant up`.
+I have included a [Vagrantfile](https://github.com/jessfraz/docker-presentation/blob/master/Vagrantfile) for a VirtualBox with ubuntu trusty 14.04. It will also provision nginx, & docker for you on the first `vagrant up`.
 
 You have one of two options for setup:
 
@@ -24,7 +24,7 @@ This is the easiest route. Just make sure you have [VirtualBox](#installing-virt
 
 ```bash
 # bring the server up
-# the first time you run vagrant up it provisions the box 
+# the first time you run vagrant up it provisions the box
 # so it takes about 10 min
 $ vagrant up
 $ vagrant ssh
@@ -71,7 +71,7 @@ Then just add the following to your `.bash_profile` to source the completions:
 
 ### If you want to roll your own
 
-I have included [provision.sh](https://github.com/jfrazelle/docker-presentation/blob/master/provision.sh), which will install nginx and docker.
+I have included [provision.sh](https://github.com/jessfraz/docker-presentation/blob/master/provision.sh), which will install nginx and docker.
 
 ```bash
 $ sudo ./provision.sh
@@ -98,9 +98,9 @@ $ sudo reboot
 
 ## Build Base Images
 
-A base image is what docker pulls from to start the build. You can find trusted base images in the [docker index](https://index.docker.io/). Now for this I have already created a slew of dockerfiles that we will create base images from in the [apps](https://github.com/jfrazelle/docker-presentation/blob/master/apps/) directory.
+A base image is what docker pulls from to start the build. You can find trusted base images in the [docker index](https://index.docker.io/). Now for this I have already created a slew of dockerfiles that we will create base images from in the [apps](https://github.com/jessfraz/docker-presentation/blob/master/apps/) directory.
 
-If you `ssh` into the vagrant box with the `Vagrantfile` provided, the directories are synced and these should be located at `/var/presentation/apps` in your vagrant box. Included in the directory are *extremely* minimal Dockerfiles for [`node`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/node/Dockerfile), [`python`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/python/Dockerfile), [`ruby`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/ruby/Dockerfile), and [`go`](https://github.com/jfrazelle/docker-presentation/blob/master/apps/go/Dockerfile).
+If you `ssh` into the vagrant box with the `Vagrantfile` provided, the directories are synced and these should be located at `/var/presentation/apps` in your vagrant box. Included in the directory are *extremely* minimal Dockerfiles for [`node`](https://github.com/jessfraz/docker-presentation/blob/master/apps/node/Dockerfile), [`python`](https://github.com/jessfraz/docker-presentation/blob/master/apps/python/Dockerfile), [`ruby`](https://github.com/jessfraz/docker-presentation/blob/master/apps/ruby/Dockerfile), and [`go`](https://github.com/jessfraz/docker-presentation/blob/master/apps/go/Dockerfile).
 
 This is a great reference on caching and best parctices: [Docker Best Practices](http://crosbymichael.com/dockerfile-best-practices.html).
 
@@ -222,4 +222,4 @@ $ sudo /var/presentation/scripts/publish go 0.0.0.0:<port>
 ```
 
 
-[![Analytics](https://ga-beacon.appspot.com/UA-29404280-16/docker-presentation/README.md)](https://github.com/jfrazelle/docker-presentation)
+[![Analytics](https://ga-beacon.appspot.com/UA-29404280-16/docker-presentation/README.md)](https://github.com/jessfraz/docker-presentation)

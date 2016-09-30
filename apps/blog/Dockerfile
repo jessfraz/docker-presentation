@@ -1,5 +1,5 @@
 FROM ubuntu:trusty
-MAINTAINER  Jessica Frazelle <github.com/jfrazelle>
+MAINTAINER  Jessica Frazelle <github.com/jessfraz>
 
 # install dependencies
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yq \
